@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lyzer ✈ Eliza — Countdown to Canada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mango:#FF8C42;
+    --ocean:#1B4965;
+    --maple:#E63946;
+    --cream:#FFF6E9;
+    --gold:#F4A300;
+    --leaf:#3A7D44;
+    --ink:#243B53;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Quicksand',sans-serif;
+    overflow-x:hidden;
+  }
+  body{
+    background-image:
+      radial-gradient(circle at 10% 15%, rgba(255,140,66,0.12) 0%, transparent 35%),
+      radial-gradient(circle at 90% 80%, rgba(27,73,101,0.10) 0%, transparent 40%);
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Fredoka',sans-serif;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px 80px;
+    overflow:hidden;
+  }
+
+  .names{
+    font-size:clamp(2.2rem, 7vw, 4.2rem);
+    font-weight:700;
+    color:var(--ocean);
+    letter-spacing:-1px;
+    display:flex;
+    align-items:center;
+    gap:0.3em;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .names .plane-icon{
+    display:inline-block;
+    font-size:0.55em;
+    animation: fly-wiggle 2.4s ease-in-out infinite;
+  }
+  @keyframes fly-wiggle{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-6px) rotate(-4deg); }
+  }
+  .eliza-name{ color: var(--maple); }
+  .lyzer-name{ color: var(--ocean); }
+
+  .subtitle{
+    margin-top:10px;
+    font-size:clamp(0.95rem, 2.4vw, 1.2rem);
+    color:#5b7186;
+    font-weight:600;
+  }
+
+  /* ===== FLIGHT PATH ===== */
+  .flight-wrap{
+    width:100%;
+    max-width:900px;
+    margin:50px auto 10px;
+    position:relative;
+    padding:0 10px;
+  }
+
+  .flight-path{
+    width:100%;
+    height:180px;
+    position:relative;
+  }
+
+  .flight-path svg{ width:100%; height:100%; display:block; }
+
+  .city-tag{
+    position:absolute;
+    font-family:'Fredoka',sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+  }
+  .city-tag .flag{ font-size:1.8rem; }
+  .city-tag.ph{ left:0; bottom:6px; text-align:left; align-items:flex-start;}
+  .city-tag.ca{ right:0; bottom:6px; text-align:right; align-items:flex-end;}
+  .city-tag.tokyo{
+    top:2%;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:0.78rem;
+    color:#8a6d1a;
+    white-space:nowrap;
+  }
+  .city-tag.tokyo .flag{ font-size:1.3rem; }
+
+  .plane{
+    position:absolute;
+    font-size:1.8rem;
+    transform-origin:center;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+  }
+
+  /* ===== COUNTDOWN ===== */
+  .countdown-card{
+    margin:30px auto 0;
+    max-width:760px;
+    background:#fff;
+    border-radius:28px;
+    padding:38px 28px 32px;
+    box-shadow: 0 18px 40px -10px rgba(27,73,101,0.18), 0 2px 0 rgba(27,73,101,0.04);
+    position:relative;
+    border:2px dashed rgba(244,163,0,0.45);
+  }
+
+  .countdown-label{
+    font-size:0.85rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--mango);
+    font-weight:700;
+    text-align:center;
+    margin-bottom:18px;
+  }
+
+  .countdown-grid{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+
+  .count-unit{
+    background:linear-gradient(160deg, var(--ocean), #163750);
+    color:#fff;
+    border-radius:18px;
+    min-width:88px;
+    padding:16px 10px 12px;
+    text-align:center;
+    box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15);
+  }
+  .count-unit .num{
+    font-family:'Fredoka',sans-serif;
+    font-size:clamp(1.8rem, 6vw, 2.6rem);
+    font-weight:700;
+    line-height:1;
+    font-variant-numeric: tabular-nums;
+  }
+  .count-unit .lbl{
+    font-size:0.7rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    opacity:0.75;
+    margin-top:4px;
+    font-weight:600;
+  }
+
+  .landing-banner{
+    text-align:center;
+    margin-top:20px;
+    font-weight:700;
+    color:var(--leaf);
+    font-size:1.1rem;
+    display:none;
+  }
+
+  .footer-note{
+    text-align:center;
+    margin-top:18px;
+    font-size:0.85rem;
+    color:#8a9bac;
+    font-weight:600;
+  }
+
+  /* ===== FUN FACTS STRIP ===== */
+  .facts{
+    max-width:900px;
+    margin:60px auto 0;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:18px;
+  }
+  .fact-card{
+    background:#fff;
+    border-radius:20px;
+    padding:22px 20px;
+    box-shadow:0 10px 24px -8px rgba(27,73,101,0.14);
+    text-align:center;
+    transition:transform .25s ease;
+  }
+  .fact-card:hover{ transform:translateY(-4px); }
+  .fact-card .emoji{ font-size:2rem; display:block; margin-bottom:8px; }
+  .fact-card .big{
+    font-family:'Fredoka',sans-serif;
+    font-size:1.6rem;
+    font-weight:700;
+    color:var(--ocean);
+  }
+  .fact-card .small{
+    font-size:0.82rem;
+    color:#6c7f92;
+    font-weight:600;
+    margin-top:4px;
+  }
+
+  /* ===== CANADA STOPS ===== */
+  .stops{
+    max-width:900px;
+    margin:70px auto 30px;
+    padding:0 20px;
+  }
+  .stops h2{
+    text-align:center;
+    color:var(--maple);
+    font-size:clamp(1.5rem,4vw,2rem);
+    margin-bottom:6px;
+  }
+  .stops .sub{
+    text-align:center;
+    color:#6c7f92;
+    font-weight:600;
+    font-size:0.9rem;
+    margin-bottom:30px;
+  }
+  .stop-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    justify-content:center;
+  }
+  .stop-chip{
+    background:#fff;
+    border-radius:50px;
+    padding:12px 22px;
+    font-weight:700;
+    color:var(--ocean);
+    font-family:'Fredoka',sans-serif;
+    box-shadow:0 8px 18px -6px rgba(27,73,101,0.16);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:0.95rem;
+  }
+
+  /* ===== FLOATING DOODLES ===== */
+  .doodle{
+    position:absolute;
+    pointer-events:none;
+    opacity:0.85;
+    user-select:none;
+    animation: float-doodle 6s ease-in-out infinite;
+  }
+  @keyframes float-doodle{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-12px) rotate(6deg); }
+  }
+
+  footer{
+    text-align:center;
+    padding:40px 20px 60px;
+    font-size:0.85rem;
+    color:#9aabba;
+    font-weight:600;
+  }
+  footer .heart{ color:var(--maple); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <span class="doodle" style="top:8%; left:6%; font-size:2.2rem; animation-delay:0s;">🥭</span>
+  <span class="doodle" style="top:14%; right:8%; font-size:2.4rem; animation-delay:1.2s;">🍁</span>
+  <span class="doodle" style="top:62%; left:4%; font-size:2rem; animation-delay:2s;">🌴</span>
+  <span class="doodle" style="top:70%; right:6%; font-size:2.1rem; animation-delay:0.6s;">🏒</span>
+  <span class="doodle" style="top:4%; left:42%; font-size:1.6rem; animation-delay:1.8s;">💌</span>
+
+  <div class="names">
+    <span class="lyzer-name">Lyzer</span>
+    <span class="plane-icon">✈️</span>
+    <span class="eliza-name">Eliza</span>
+  </div>
+  <p class="subtitle">Manila, Philippines &nbsp;→&nbsp; Canada · July 8</p>
+
+  <div class="flight-wrap">
+    <div class="flight-path">
+      <svg viewBox="0 0 900 180" preserveAspectRatio="none">
+        <path id="arcPath" d="M 40 150 Q 450 -20 860 150" fill="none" stroke="#cdd9e2" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round"/>
+        <circle id="layoverDot" cx="450" cy="50" r="5" fill="#F4A300"/>
+      </svg>
+      <div class="plane" id="planeIcon">✈️</div>
+      <div class="city-tag ph"><span class="flag">🇵🇭</span>Manila</div>
+      <div class="city-tag tokyo" id="tokyoTag"><span class="flag">🇯🇵</span>Tokyo (layover)</div>
+      <div class="city-tag ca"><span class="flag">🇨🇦</span>Canada</div>
+    </div>
+  </div>
+
+  <div class="countdown-card">
+    <div class="countdown-label">Until Lyzer lands in Vancouver ✈️</div>
+    <div class="countdown-grid" id="countdownGrid">
+      <div class="count-unit"><div class="num" id="cd-days">--</div><div class="lbl">days</div></div>
+      <div class="count-unit"><div class="num" id="cd-hours">--</div><div class="lbl">hours</div></div>
+      <div class="count-unit"><div class="num" id="cd-mins">--</div><div class="lbl">mins</div></div>
+      <div class="count-unit"><div class="num" id="cd-secs">--</div><div class="lbl">secs</div></div>
+    </div>
+    <div class="landing-banner" id="landingBanner">🎉 He's there! Go give him a hug. 🎉</div>
+    <div class="footer-note">Touchdown: Vancouver · July 8, 2026 · 10:40 AM (PDT)</div>
+  </div>
+</section>
+
+<section class="facts">
+  <div class="fact-card">
+    <span class="emoji">🌏</span>
+    <div class="big">~12,700 km</div>
+    <div class="small">Manila to Vancouver, give or take a few sleepless legs</div>
+  </div>
+  <div class="fact-card">
+    <span class="emoji">🥭</span>
+    <div class="big">Mango ↔ Maple</div>
+    <div class="small">trading tropical sweetness for crisp Canadian air</div>
+  </div>
+  <div class="fact-card">
+    <span class="emoji">🕐</span>
+    <div class="big">~15 hrs</div>
+    <div class="small">time difference closing the moment he lands</div>
+  </div>
+</section>
+
+<section class="stops">
+  <h2>Where We're Headed 🍁</h2>
+  <p class="sub">So excited to wake up every day next to you</p>
+  <div class="stop-row">
+    <div class="stop-chip">🏔️ Banff</div>
+    <div class="stop-chip">🌊 Vancouver</div>
+    <div class="stop-chip">🏛️ Victoria</div>
+    <div class="stop-chip">🌳 Langley</div>
+    <div class="stop-chip">🍁 Maple Ridge</div>
+    <div class="stop-chip">🎓 Eliza's Graduation</div>
+  </div>
+</section>
+
+<footer>
+  made with <span class="heart">♥</span> for Eliza, by Lyzer
+</footer>
+
+<script>
+  // Countdown logic
+  // Target: Jul 8, 2026, 10:40 AM PDT (Vancouver) = 17:40 UTC
+  // Flight: Manila -> Tokyo Narita (09:10-14:50) -> Vancouver (17:55-10:40)
+  const target = new Date("2026-07-08T17:40:00Z");
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function updateCountdown(){
+    const now = new Date();
+    let diff = target - now;
+
+    const daysEl = document.getElementById('cd-days');
+    const hoursEl = document.getElementById('cd-hours');
+    const minsEl = document.getElementById('cd-mins');
+    const secsEl = document.getElementById('cd-secs');
+    const banner = document.getElementById('landingBanner');
+    const grid = document.getElementById('countdownGrid');
+
+    if(diff <= 0){
+      daysEl.textContent = "0";
+      hoursEl.textContent = "00";
+      minsEl.textContent = "00";
+      secsEl.textContent = "00";
+      banner.style.display = "block";
+      grid.style.opacity = "0.5";
+      return;
+    }
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    diff -= days * 1000*60*60*24;
+    const hours = Math.floor(diff / (1000*60*60));
+    diff -= hours * 1000*60*60;
+    const mins = Math.floor(diff / (1000*60));
+    diff -= mins * 1000*60;
+    const secs = Math.floor(diff / 1000);
+
+    daysEl.textContent = days;
+    hoursEl.textContent = pad(hours);
+    minsEl.textContent = pad(mins);
+    secsEl.textContent = pad(secs);
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Plane animation along the arc path
+  const planeIcon = document.getElementById('planeIcon');
+  const arcPath = document.getElementById('arcPath');
+  const pathLength = arcPath.getTotalLength();
+
+  function animatePlane(timestamp){
+    const duration = 7000; // ms for one pass
+    const t = (timestamp % duration) / duration;
+    const point = arcPath.getPointAtLength(t * pathLength);
+    const nextPoint = arcPath.getPointAtLength(Math.min(t * pathLength + 1, pathLength));
+    const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180/Math.PI);
+
+    // Convert SVG coords (viewBox 900x180) to container percentage
+    const xPct = (point.x / 900) * 100;
+    const yPct = (point.y / 180) * 100;
+
+    planeIcon.style.left = `calc(${xPct}% - 14px)`;
+    planeIcon.style.top = `calc(${yPct}% - 14px)`;
+    planeIcon.style.transform = `rotate(${angle + 35}deg)`;
+
+    requestAnimationFrame(animatePlane);
+  }
+  requestAnimationFrame(animatePlane);
+</script>
+
+</body>
+</html>
